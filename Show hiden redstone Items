@@ -1,0 +1,8 @@
+//Made by Ruben Do whatever you whant I don't Care.
+var sd=1
+function newLevel(){if(sd==1)
+{
+    sd=1
+Player.addItemCreativeInv(33,1,0);Player.addItemCreativeInv(28,1,0);Player.addItemCreativeInv(152,1,0);
+}
+}
