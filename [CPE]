@@ -1,0 +1,129 @@
+// © 2015 Commands Mod — All rights reserved!!
+//Do Not Change My Mod Or Claim Its Your's!
+//Mod Created By Ruben
+var X; //variables for coordinates.
+var Y;
+var Z;
+var ticks = 20; //number of seconds you want it delayed
+function modTick() {
+	ticks--; if(ticks==0){
+		ModPE.showTipMessage(" \§e[CPE]§2 Welcome Have Fun!");
+X = Math.round(getPlayerX())
+Y = Math.round(getPlayerY())
+Z = Math.round(getPlayerZ())
+}}
+//When Player Enter a World.
+function newLevel() {
+clientMessage("§8============================================");
+clientMessage("§3[CPE] §2Do §6/help 1 §2For Commands!") 
+clientMessage("§8============================================");
+}
+function procCmd(command) //To Give Coordinates.
+{
+var cmd = command.split(" ");
+if (cmd == "getpos"){
+clientMessage("§3[CPE] §9x:" + X + "y:" + Y + "z:" + Z);
+}
+if (cmd[0]=="fly" && cmd[1] =="on"){ //Make Player Fly on:off
+Player.setCanFly(true);
+Player.setHealth(32767);
+clientMessage("§3[CPE] §2Flying Enabled!");
+}
+if (cmd[0]=="fly" && cmd[1] =="off"){
+Player.setCanFly(false);
+Player.setHealth(20);
+clientMessage("§3[CPE] §4Flying Disabled!");
+}
+if (cmd[0]== "time" && cmd[1]== 'set' && cmd[2]== 'day'){ //Sets Time To Day Or Night
+Level.setTime(0);
+clientMessage('§2Time set to day!');
+} 
+if (cmd[0]== "time" && cmd[1]== 'set' && cmd[2]== 'night'){
+Level.setTime(14000);
+clientMessage('§4Time set to night!');
+}
+var cmd = command.split(" "); //Help Pages 1:2
+if (cmd[0]=="help" && cmd[1]=="1"){
+clientMessage("§8============================================");
+clientMessage(" §3[CPE] §6 Help Page 1 / 2")
+clientMessage(" §3[CPE] §2/time set day | night");
+clientMessage(" §3[CPE] §2/fly on | off");
+clientMessage(" §3[CPE] §2/getpos | Shows Coordinates");
+clientMessage(" §3[CPE] §2/gamemode survival | creative");
+clientMessage(" §3[CPE] §2/godmode | GodMode Commands!");
+clientMessage(" §3[CPE] §2/help 2 | Help Page 2.");
+clientMessage("§8============================================");
+}
+var cmd = command.split(" ");
+if (cmd[0]=="help" && cmd[1]=="2"){
+	clientMessage("§8============================================");
+	clientMessage(" §3[CPE] §6 Help Page 2 / 2");
+	clientMessage(" §3[CPE] §2/world | Shows World Name.");
+	clientMessage(" §3[CPE] §2/heal | Heals Yourself.");
+	clientMessage(" §3[CPE] §2/die | Kills Yourself.");
+	clientMessage(" §3[CPE] §2/version | Current Version.");
+	clientMessage(" §3[CPE] §2/credits | Mod Info.");
+	clientMessage("§8============================================");
+}
+var cmd = command.split(" ")
+if (cmd[0] == "gamemode" && cmd[1] == "creative") {
+if (Level.getGameMode() == 1) {
+clientMessage("§4You are already in Creative Mode!")
+} else {
+Level.setGameMode(1);
+clientMessage("§2Your game mode has been updated to creative!")
+}
+}
+if (cmd[0] == "gamemode" && cmd[1] == "survival") {
+if ( Level.getGameMode() == 0 ) {
+clientMessage("§4You are already in Survival Mode!")
+} else {
+Level.setGameMode(0);
+clientMessage("§2Your game mode has been updated to survival!")
+}
+}
+//credits Page
+var cmd = command.split(" ")
+if (cmd[0]== "credits"){
+clientMessage("§8============================================");
+	clientMessage("§5Mod Created By §2Ruben Craveiro§5. Dont Claim Saying §5Its Your Mod, Google + Account Username Is §2Ruben §2Craveiro.");
+clientMessage("§8============================================");
+}
+var cmd = command.split(" ") //Never Dies on:off 
+if (cmd[0]== "godmode" && cmd[1] == "on"){
+	Player.setHealth(32727)
+	clientMessage("§3[CPE] §2God Mode Activated!");
+}
+var cmd = command.split(" ")
+if (cmd[0]== "godmode" && cmd[1] == "off"){
+	Player.setHealth(20)
+	clientMessage("§3[CPE] §4God Mode Disabled!");
+}
+var cmd = command.split(" ")
+if (cmd== "godmode"){
+	clientMessage("§3[CPE] §5/godmode on | off");
+}
+var world = Level.getWorldName() //Gives World Name
+var cmd = command.split(" ")
+if (cmd== "world"){
+	Level.getWorldName();
+	clientMessage("§3[CPE] §2World:" + world);
+}
+var cmd = command.split(" ") //Heals Yourself
+if (cmd[0]== "heal"){
+	Player.setHealth(20)
+	clientMessage("§3[CPE] §2You Have Been Healed!");
+}
+var cmd = command.split(" ") //Kill Yourself
+if (cmd[0]== "die"){
+	Player.setHealth(0)
+	clientMessage("§3[CPE] §4You Have Been Killed!");
+}
+var cmd = command.split(" ")
+if (cmd[0] == "version") {
+clientMessage("§3[CPE] §2Current Version:§e 3.0");
+}
+}
+function leaveGame() { //In Development
+	print("Goodbye");
+}
