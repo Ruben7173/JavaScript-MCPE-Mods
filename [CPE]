@@ -1,129 +1,221 @@
-// © 2015 Commands Mod — All rights reserved!!
-//Do Not Change My Mod Or Claim Its Your's!
-//Mod Created By Ruben
-var X; //variables for coordinates.
-var Y;
-var Z;
-var ticks = 20; //number of seconds you want it delayed
+Ruben
+
+
+Search Drive
+
+Drive
+.
+Folder Path
+My Drive
+Scripts
+[CPE] Commands Pocket Edition
+NEW 
+Folders and views
+My Drive
+Shared with me
+Google Photos
+Recent
+Starred
+Bin
+609 MB of 17 GB used
+Upgrade storage
+.
+
+Javascript
+[CPE].js
+Get Drive for PC
+All selections cleared 
+Uploads completed
+Javascript[CPE].js6.71 KBUploadedShare
+Javascript[CPE].js6.71 KBUploadedShare
+Javascript[CPE].js6.16 KBUploadedShare
+Javascript[CPE].js6.12 KBUploadedShare
+Javascript[CPE].js6.12 KBUploadedShare
+
+
+// Commands Mod — All rights reserved. Do not change anything or claim it as yours!
+// Mod Created By Ruben Craveiro and Macky Clemen. © 2016.
+// 
+
+// User-editable Variables
+var allowMessageNewLevel=true; // enables greeting message each time you enter a level
+var allowDelay=true; //enables or disables delay for the greeting message
+var delayTicks = 20; //number of seconds you want it delayed
+var enableGameModeOverride=false; //enables or disables gamemode override
+
+// Script-only Variables
+var X, Y, Z;
+var worldName = Level.getWorldName();
+
 function modTick() {
-	ticks--; if(ticks==0){
-		ModPE.showTipMessage(" \§e[CPE]§2 Welcome Have Fun!");
-X = Math.round(getPlayerX())
-Y = Math.round(getPlayerY())
-Z = Math.round(getPlayerZ())
-}}
-//When Player Enter a World.
+	if(allowMessageNewLevel=true) {
+		delayTicks--; 
+		if(delayTicks==0) ModPE.showTipMessage(" \§e[CPE]§2 Welcome Have Fun!");
+	}
+	
+	X = Math.round(getPlayerX())
+	Y = Math.round(getPlayerY())
+	Z = Math.round(getPlayerZ())
+}
+
+// Function that will be executed every level load.
 function newLevel() {
-clientMessage("§8============================================");
-clientMessage("§3[CPE] §2Do §6/help 1 §2For Commands!") 
-clientMessage("§8============================================");
+	if(allowMessageNewLevel=true) {		
+		clientMessage("§8============================================");
+		clientMessage("§3[CPE] §2Do §6/help §2For Commands!") 
+		clientMessage("§8============================================");
+	}
 }
-function procCmd(command) //To Give Coordinates.
-{
-var cmd = command.split(" ");
-if (cmd == "getpos"){
-clientMessage("§3[CPE] §9x:" + X + "y:" + Y + "z:" + Z);
+
+// Function that saves, and executes commands
+function procCmd(command) {
+	var cmd = command.split(" ");
+	
+	// coordinates command
+	if (cmd == "getpos"){
+		clientMessage("§3[CPE] §9 x:" + X + ", y:" + Y + ", z:" + Z);
+	}
+	
+	// toggle flying command ====== not working on latest MCPE update
+	//if (cmd[0]=="fly") {
+		//if (cmd[1] =="on"){
+		//	Player.setCanFly(true);
+		//	Player.setHealth(32767);
+		//	clientMessage("§3[CPE] §2Flying Enabled!");
+		//} else if (cmd[1] =="off"){
+		//	Player.setCanFly(false);
+		//	Player.setHealth(20);
+		//	clientMessage("§3[CPE] §4Flying Disabled!");
+		//} else {
+		//	clientMessage("§cUsage: /fly <on|off>")
+		//}
+	//}
+	
+	// time command
+	if (cmd[0]== "time") {
+		if (cmd[1]== "set") {
+			if (cmd[2]== "day"){
+				Level.setTime(1000);
+				clientMessage("§2Time set to day");
+			} else if (cmd[2]== "night"){
+				Level.setTime(14000);
+				clientMessage("§4Time set to night");
+			} else if (cmd[2]<=0){
+				Level.setTime(cmd[2])
+				clientMessage("Time set to " + cmd[2]);
+			}
+		} else if (cmd[1]=="add"){
+			if (cmd[2]<=0) {
+				Level.setTime(Level.getTime + cmd[2]);
+				clientMessage("Time set to " + Level.getTime);
+			} else clientMessage("§cUsage: /time <set|add> <value>");
+		} else {
+			clientMessage("§cUsage: /time <set|add> <value>");
+		}
+	}
+	
+	//Help Pages 1:2
+	if (cmd[0]=="help") {
+		if (cmd[1]=="1" || cmd[1]==undefined) {
+			clientMessage("§8============================================");
+			clientMessage(" §3[CPE] §6 Help Page 1/3")
+			clientMessage(" §3[CPE] §2/credits | Mod Info.");
+			clientMessage(" §3[CPE] §2/die | Kills Yourself.");
+			clientMessage(" §3[CPE] §2/fly on | off");
+			clientMessage(" §3[CPE] §2/gamemode survival | creative");
+			clientMessage(" §3[CPE] §2/getpos | Shows Coordinates");
+			clientMessage("§8============================================");
+		} else if (cmd[1]=="2") {
+			clientMessage("§8============================================");
+			clientMessage(" §3[CPE] §6 Help Page 2/3")
+			clientMessage(" §3[CPE] §2/godmode | GodMode Commands!");
+			clientMessage(" §3[CPE] §2/heal | Heals Yourself.");
+			clientMessage(" §3[CPE] §2/help <page> | help command");
+			clientMessage(" §3[CPE] §2/kill | Kills Yourself.");
+			clientMessage(" §3[CPE] §2/time <set|add> <value> | time");
+			clientMessage("§8============================================");
+		} else if (cmd[1]=="3") {
+			clientMessage("§8============================================");
+			clientMessage(" §3[CPE] §6 Help Page 3 / 3");
+			clientMessage(" §3[CPE] §2/version | Current Version.");
+			clientMessage(" §3[CPE] §2/world | Shows World Name and seed.");
+			clientMessage(" §3[CPE] §2/xp | adds XP to player")
+			clientMessage("§8============================================");
+		}
+	}
+	
+	//gamemode commands
+	if (cmd[0] == "gamemode") {
+		if (cmd[1]=="creative" || cmd[1]=="c" || cmd[1]==1) {		
+			if (Level.getGameMode() == 1 && enableGameModeOverride == true) {				
+				clientMessage("§4You are already in Creative Mode!")				
+			} else {				
+				Level.setGameMode(1);
+				clientMessage("§2Your game mode has been updated to creative!")				
+			}			
+		} else if (cmd[1]=="survival" || cmd[1] == "s" || cmd[1]==0) {			
+			if ( Level.getGameMode() == 0 && enableGameModeOverride == true) {				
+				clientMessage("§4You are already in Survival Mode!")				
+			} else {				
+				Level.setGameMode(0);
+				clientMessage("§2Your game mode has been updated to survival!")				
+			}			
+		} else {			
+			clientMessage("§cUsage: /gamemode <mode>. (/help for more info)")			
+		}
+	}
+	
+	//credits Page
+	if (cmd[0]== "credits"){
+		clientMessage("§8============================================");
+		clientMessage("§5Mod Created By §2Ruben Craveiro§5 with the help of §2Macky Clemen§5. Dont Copy or edit any code. Thanks © 2016");
+		clientMessage("§8============================================");
+	}
+	
+	// God mode module
+	if (cmd[0]== "godmode") {
+		if (cmd[1] == "on"){
+			Player.setHealth(32767);
+			clientMessage("§3[CPE] §2God Mode Activated!");
+		} else if (cmd[1] == "off") {
+			Player.setHealth(20)
+			clientMessage("§3[CPE] §4God Mode Disabled!");
+		} else {
+			clientMessage("§cUsage: /godmode <on|off>")
+		}
+	}
+
+	//Gives World Name
+	if (cmd== "world"){
+		clientMessage("§3[CPE] §2World:" + worldName);
+	}
+
+	//Heals Yourself
+	if (cmd[0]== "heal"){
+		Player.setHealth(20)
+		clientMessage("§3[CPE] §2You Have Been Healed!");
+	}
+	
+	//Kill Yourself
+	if (cmd[0]== "die" || cmd[0] == "kill"){
+		Player.setHealth(0)
+		clientMessage("§3[CPE] §4You Have Been Killed!");
+		clientMessage("Ouch. That looked like it hurt.")
+	}
+	
+	//Version
+	if (cmd[0] == "version") {
+		clientMessage("§3[CPE] §2Current Version:§e new 10 TH2.js");
+	}
+	
+	if (cmd == "xp"){
+		Player.setLevel(1000);
+		Player.setExp(10);
+		clientMessage("§3[CPE] §2EXP bar is now Full!");
+	}
 }
-if (cmd[0]=="fly" && cmd[1] =="on"){ //Make Player Fly on:off
-Player.setCanFly(true);
-Player.setHealth(32767);
-clientMessage("§3[CPE] §2Flying Enabled!");
-}
-if (cmd[0]=="fly" && cmd[1] =="off"){
-Player.setCanFly(false);
-Player.setHealth(20);
-clientMessage("§3[CPE] §4Flying Disabled!");
-}
-if (cmd[0]== "time" && cmd[1]== 'set' && cmd[2]== 'day'){ //Sets Time To Day Or Night
-Level.setTime(0);
-clientMessage('§2Time set to day!');
-} 
-if (cmd[0]== "time" && cmd[1]== 'set' && cmd[2]== 'night'){
-Level.setTime(14000);
-clientMessage('§4Time set to night!');
-}
-var cmd = command.split(" "); //Help Pages 1:2
-if (cmd[0]=="help" && cmd[1]=="1"){
-clientMessage("§8============================================");
-clientMessage(" §3[CPE] §6 Help Page 1 / 2")
-clientMessage(" §3[CPE] §2/time set day | night");
-clientMessage(" §3[CPE] §2/fly on | off");
-clientMessage(" §3[CPE] §2/getpos | Shows Coordinates");
-clientMessage(" §3[CPE] §2/gamemode survival | creative");
-clientMessage(" §3[CPE] §2/godmode | GodMode Commands!");
-clientMessage(" §3[CPE] §2/help 2 | Help Page 2.");
-clientMessage("§8============================================");
-}
-var cmd = command.split(" ");
-if (cmd[0]=="help" && cmd[1]=="2"){
-	clientMessage("§8============================================");
-	clientMessage(" §3[CPE] §6 Help Page 2 / 2");
-	clientMessage(" §3[CPE] §2/world | Shows World Name.");
-	clientMessage(" §3[CPE] §2/heal | Heals Yourself.");
-	clientMessage(" §3[CPE] §2/die | Kills Yourself.");
-	clientMessage(" §3[CPE] §2/version | Current Version.");
-	clientMessage(" §3[CPE] §2/credits | Mod Info.");
-	clientMessage("§8============================================");
-}
-var cmd = command.split(" ")
-if (cmd[0] == "gamemode" && cmd[1] == "creative") {
-if (Level.getGameMode() == 1) {
-clientMessage("§4You are already in Creative Mode!")
-} else {
-Level.setGameMode(1);
-clientMessage("§2Your game mode has been updated to creative!")
-}
-}
-if (cmd[0] == "gamemode" && cmd[1] == "survival") {
-if ( Level.getGameMode() == 0 ) {
-clientMessage("§4You are already in Survival Mode!")
-} else {
-Level.setGameMode(0);
-clientMessage("§2Your game mode has been updated to survival!")
-}
-}
-//credits Page
-var cmd = command.split(" ")
-if (cmd[0]== "credits"){
-clientMessage("§8============================================");
-	clientMessage("§5Mod Created By §2Ruben Craveiro§5. Dont Claim Saying §5Its Your Mod, Google + Account Username Is §2Ruben §2Craveiro.");
-clientMessage("§8============================================");
-}
-var cmd = command.split(" ") //Never Dies on:off 
-if (cmd[0]== "godmode" && cmd[1] == "on"){
-	Player.setHealth(32727)
-	clientMessage("§3[CPE] §2God Mode Activated!");
-}
-var cmd = command.split(" ")
-if (cmd[0]== "godmode" && cmd[1] == "off"){
-	Player.setHealth(20)
-	clientMessage("§3[CPE] §4God Mode Disabled!");
-}
-var cmd = command.split(" ")
-if (cmd== "godmode"){
-	clientMessage("§3[CPE] §5/godmode on | off");
-}
-var world = Level.getWorldName() //Gives World Name
-var cmd = command.split(" ")
-if (cmd== "world"){
-	Level.getWorldName();
-	clientMessage("§3[CPE] §2World:" + world);
-}
-var cmd = command.split(" ") //Heals Yourself
-if (cmd[0]== "heal"){
-	Player.setHealth(20)
-	clientMessage("§3[CPE] §2You Have Been Healed!");
-}
-var cmd = command.split(" ") //Kill Yourself
-if (cmd[0]== "die"){
-	Player.setHealth(0)
-	clientMessage("§3[CPE] §4You Have Been Killed!");
-}
-var cmd = command.split(" ")
-if (cmd[0] == "version") {
-clientMessage("§3[CPE] §2Current Version:§e 3.0");
-}
-}
-function leaveGame() { //In Development
+
+// Function that executes after the player leaves the world
+function leaveGame() {
 	print("Goodbye");
 }
