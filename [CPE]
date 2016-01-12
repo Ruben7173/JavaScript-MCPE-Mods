@@ -42,69 +42,82 @@ function procCmd(command) {
 	}
 	
 	// toggle flying command ====== not working on latest MCPE update
-	//if (cmd[0]=="fly") {
-		//if (cmd[1] =="on"){
-		//	Player.setCanFly(true);
-		//	Player.setHealth(32767);
-		//	clientMessage("§3[CPE] §2Flying Enabled!");
-		//} else if (cmd[1] =="off"){
-		//	Player.setCanFly(false);
-		//	Player.setHealth(20);
-		//	clientMessage("§3[CPE] §4Flying Disabled!");
-		//} else {
-		//	clientMessage("§cUsage: /fly <on|off>")
-		//}
-	//}
+	/*if (cmd[0]=="fly") {
+		if (cmd[1] =="on"){
+			Player.setCanFly(true);
+			Player.setHealth(32767);
+			clientMessage("§3[CPE] §2Flying Enabled!");
+		} else if (cmd[1] =="off"){
+			Player.setCanFly(false);
+			Player.setHealth(20);
+			clientMessage("§3[CPE] §4Flying Disabled!");
+		} else {
+			clientMessage("§cUsage: /fly <on|off>")
+		}
+	}*/
 	
 	// time command
 	if (cmd[0]== "time") {
 		if (cmd[1]== "set") {
 			if (cmd[2]== "day"){
 				Level.setTime(1000);
-				clientMessage("§2Time set to day");
+				clientMessage("§3[CPE] §2Time set to day");
 			} else if (cmd[2]== "night"){
 				Level.setTime(14000);
-				clientMessage("§4Time set to night");
-			} else if (cmd[2]<=0){
+				clientMessage("§3[CPE] §4Time set to night");
+			} else if (cmd[2]>=0){
 				Level.setTime(cmd[2])
-				clientMessage("Time set to " + cmd[2]);
+				clientMessage("§3[CPE] §2Time set to " + cmd[2]);
 			}
 		} else if (cmd[1]=="add"){
-			if (cmd[2]<=0) {
-				Level.setTime(Level.getTime + cmd[2]);
-				clientMessage("Time set to " + Level.getTime);
-			} else clientMessage("§cUsage: /time <set|add> <value>");
+			if (cmd[2]>=0) {
+				Level.setTime(Level.getTime() + cmd[2]);
+				clientMessage("§3[CPE] §2Time set to " + Level.getTime());
+			} else clientMessage("§3[CPE] §cUsage: /time <set|add> <value>");
 		} else {
-			clientMessage("§cUsage: /time <set|add> <value>");
+			clientMessage("§3[CPE] §cUsage: /time <set|add> <value>");
 		}
 	}
 	
 	//Help Pages 1:2
-	if (cmd[0]=="help") {
+	if (cmd[0]=="help") {	
 		if (cmd[1]=="1" || cmd[1]==undefined) {
 			clientMessage("§8============================================");
 			clientMessage(" §3[CPE] §6 Help Page 1/3")
-			clientMessage(" §3[CPE] §2/credits | Mod Info.");
-			clientMessage(" §3[CPE] §2/die | Kills Yourself.");
-			clientMessage(" §3[CPE] §2/fly on | off");
+			clientMessage(" §3[CPE] §2/help <page>.");
+			clientMessage(" §3[CPE] §2/die | Commit Suicide.");
+			clientMessage(" §3[CPE] §2/heal | Heals Yourself.");
+			//clientMessage(" §3[CPE] §2/fly on | off");
 			clientMessage(" §3[CPE] §2/gamemode survival | creative");
-			clientMessage(" §3[CPE] §2/getpos | Shows Coordinates");
+			clientMessage(" §3[CPE] §2/getpos | Shows Coordinates.");
 			clientMessage("§8============================================");
 		} else if (cmd[1]=="2") {
 			clientMessage("§8============================================");
 			clientMessage(" §3[CPE] §6 Help Page 2/3")
 			clientMessage(" §3[CPE] §2/godmode | GodMode Commands!");
-			clientMessage(" §3[CPE] §2/heal | Heals Yourself.");
-			clientMessage(" §3[CPE] §2/help <page> | help command");
+			clientMessage(" §3[CPE] §2/lightning <on|1> <off|0>.");
+			clientMessage(" §3[CPE] §2/rain <on|1|> <off|0|>.")
 			clientMessage(" §3[CPE] §2/kill | Kills Yourself.");
-			clientMessage(" §3[CPE] §2/time <set|add> <value> | time");
+			clientMessage(" §3[CPE] §2/time <set|add> <value> | time.");
 			clientMessage("§8============================================");
 		} else if (cmd[1]=="3") {
 			clientMessage("§8============================================");
 			clientMessage(" §3[CPE] §6 Help Page 3 / 3");
+			//clientMessage(" §3[CPE] §2/world | Shows World Name and seed.");
+			clientMessage(" §3[CPE] §2/exp | adds EXP to player.")
+            clientMessage(" §3[CPE] §2/hunger <fill|empty>.")
+			clientMessage(" §3[CPE] §2/credits | Mod Info.");
 			clientMessage(" §3[CPE] §2/version | Current Version.");
-			clientMessage(" §3[CPE] §2/world | Shows World Name and seed.");
-			clientMessage(" §3[CPE] §2/xp | adds XP to player")
+			clientMessage("§8============================================");
+	    } else {
+			clientMessage("§8============================================");
+			clientMessage(" §3[CPE] §6 Help Page 1/3")
+			clientMessage(" §3[CPE] §2/help <page>.");
+			clientMessage(" §3[CPE] §2/die | Commit Suicide.");
+			clientMessage(" §3[CPE] §2/heal | Heals Yourself.");
+			//clientMessage(" §3[CPE] §2/fly on | off");
+			clientMessage(" §3[CPE] §2/gamemode survival | creative");
+			clientMessage(" §3[CPE] §2/getpos | Shows Coordinates.");
 			clientMessage("§8============================================");
 		}
 	}
@@ -113,28 +126,106 @@ function procCmd(command) {
 	if (cmd[0] == "gamemode") {
 		if (cmd[1]=="creative" || cmd[1]=="c" || cmd[1]==1) {		
 			if (Level.getGameMode() == 1 && enableGameModeOverride == true) {				
-				clientMessage("§4You are already in Creative Mode!")				
+				clientMessage("§3[CPE] §4You are already in Creative Mode!")				
 			} else {				
 				Level.setGameMode(1);
-				clientMessage("§2Your game mode has been updated to creative!")				
+				clientMessage("§3[CPE] §2Your game mode has been updated to creative!")				
 			}			
 		} else if (cmd[1]=="survival" || cmd[1] == "s" || cmd[1]==0) {			
 			if ( Level.getGameMode() == 0 && enableGameModeOverride == true) {				
-				clientMessage("§4You are already in Survival Mode!")				
+				clientMessage("§3[CPE] §4You are already in Survival Mode!")				
 			} else {				
 				Level.setGameMode(0);
-				clientMessage("§2Your game mode has been updated to survival!")				
+				clientMessage("§3[CPE] §2Your game mode has been updated to survival!")				
 			}			
 		} else {			
-			clientMessage("§cUsage: /gamemode <mode>. (/help for more info)")			
+			clientMessage("§3[CPE] §cUsage: /gamemode <mode>.")			
 		}
 	}
 	
 	//credits Page
 	if (cmd[0]== "credits"){
 		clientMessage("§8============================================");
-		clientMessage("§5Mod Created By §2Ruben Craveiro§5 with the help of §2Macky Clemen§5. Dont Copy or edit any code. Thanks © 2016");
+		clientMessage("§5Mod Created By §2Ruben Craveiro§5 and §2Macky Clemen§5. Dont Copy or edit any code. Thanks © 2016");
 		clientMessage("§8============================================");
+	}
+	
+	//Rain Commands
+    if (cmd[0]== "rain") {
+        if (cmd[1]== "on" || cmd[1]== "1") {
+			if (Level.getRainLevel() == 1) {
+				clientMessage("§3[CPE] §4It's already raining!");
+			} else {
+				Level.setRainLevel(1);
+				clientMessage("§3[CPE] §2It's now raining!");
+			}
+		} else if (cmd[1]== "off" || cmd[1]== "0") {
+			if (Level.getRainLevel() == 0) {
+				clientMessage("§3[CPE] §4Rain is already off!");
+			} else {
+				Level.setRainLevel(0);
+				clientMessage("§3[CPE] §2It's no longer raining!");
+			}
+		} else {
+			clientMessage("§cUsage: /rain <on|off>")
+		}
+	}
+	
+    //Easter egg: toggledownfall
+	if(cmd[0]=="toggledownfall") {
+		if (Level.getRainLevel()==0) {
+			Level.setRainLevel(1)
+			clientMessage("Toggled Downfall")
+		} else if (Level.getRainLevel()==1) {
+			Level.setRainLevel(0)
+			clientMessage("Toggled Downfall")
+		} else if (Level.getLightningLevel() == 1) {
+			Level.setLightningLevel(0)
+			clientMessage("Toggled Downfall")
+		}
+	}
+	
+	// Hunger commands
+    if (cmd[0]== "hunger") {
+        if (cmd[1]== "fill") {
+			if (Player.getHunger() == 20) {
+				clientMessage("§3[CPE] §cError> You aren't hungry!");
+			} else {
+				Player.setHunger(20);
+				clientMessage("§3[CPE] §2Hunger bar filled successfully!")
+			
+			}
+		} else if (cmd[1]== "empty") {
+			if (Player.getHunger() == 0) {
+				clientMessage("§3[CPE] §cError> §2You are already hungry!");
+			} else {
+				Player.setHunger(0);
+				clientMessage("§3[CPE] §2You are now hungry!")
+			}
+		} else {
+			clientMessage("§cUsage: /hunger <fill|empty>")
+		}
+	}
+	
+	//Lightning Commands
+    if (cmd[0]== "lightning") {
+        if (cmd[1]== "on" || cmd[1]== 1) {
+			if (Level.getLightningLevel() == 1) {
+				clientMessage("§3[CPE] §4It's already lightning!");
+			} else {
+				Level.setLightningLevel(1);
+				clientMessage("§3[CPE] §2It's now lightning!");
+			}
+		} else if (cmd[1]== "off" || cmd[1]== 0) {
+			if (Level.getLightningLevel() == 0) {
+				clientMessage("§3[CPE] §4Lightning is already off!");
+			} else {
+				Level.setLightningLevel(0);
+				clientMessage("§3[CPE] §2It's no longer lightning!");
+			}
+		} else {
+			clientMessage("§cUsage: /lightning <on|off>")
+		}
 	}
 	
 	// God mode module
@@ -150,10 +241,11 @@ function procCmd(command) {
 		}
 	}
 
-	//Gives World Name
-	if (cmd== "world"){
+	/*Gives World Name --NOT WORKING ON 0.13.0
+	if (cmd[0]== "world"){
 		clientMessage("§3[CPE] §2World:" + worldName);
 	}
+	*/
 
 	//Heals Yourself
 	if (cmd[0]== "heal"){
@@ -164,16 +256,17 @@ function procCmd(command) {
 	//Kill Yourself
 	if (cmd[0]== "die" || cmd[0] == "kill"){
 		Player.setHealth(0)
-		clientMessage("§3[CPE] §4You Have Been Killed!");
-		clientMessage("Ouch. That looked like it hurt.")
+		clientMessage("§4Ouch. That looked like it hurt.")
 	}
 	
 	//Version
 	if (cmd[0] == "version") {
-		clientMessage("§3[CPE] §2Current Version:§e new 10 TH2.js");
+		clientMessage("§3[CPE] §2Current Version:§e 3.5");
 	}
 	
-	if (cmd == "xp"){
+	//xp
+	if (cmd[0] == "exp" || cmd[0] == "xp"){
+		clientMessage("This command will be improved")
 		Player.setLevel(1000);
 		Player.setExp(10);
 		clientMessage("§3[CPE] §2EXP bar is now Full!");
